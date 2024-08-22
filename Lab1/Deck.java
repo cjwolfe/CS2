@@ -1,19 +1,22 @@
 
-// package Lab 1;
-// import java.util.random;
+// package Lab1;
+import java.util.Random;
 import java.util.ArrayList;
 
-public int NUM_CARDS = 0;
-private Random generator;
-private ArrayList<> deck;
+import Lab1.Suit.java;
+import Lab1.Rank.java;
 
 public class Deck {
+    public int NUM_CARDS = 0;
+    private Random generator;
+    private ArrayList<> deck;
+
     public Deck() {
 
     }
 
     public Deck(int seed) {
-        this.seed = seed;
+
     }
 
     public void initialize() {

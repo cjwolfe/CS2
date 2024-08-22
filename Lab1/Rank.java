@@ -1,8 +1,8 @@
-//package Lab 1;
+package Lab1;
 
 //public class Rank {
 //};
-
+//public class Rank {
 public enum Rank {
     TWO,
     THREE,
@@ -17,4 +17,5 @@ public enum Rank {
     QUEEN,
     KING,
     ACE
+    // }
 };
