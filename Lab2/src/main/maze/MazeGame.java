@@ -89,7 +89,7 @@ public class MazeGame
     }
 
     public void setPlayerRow(int row) {
-
+        this.player(ROW) = row;
     }
 
     public void setPlayerCol(int col) {
