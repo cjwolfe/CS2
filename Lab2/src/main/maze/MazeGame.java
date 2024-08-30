@@ -16,7 +16,6 @@ public class MazeGame
     private static final int ROW = 0;
     private static final int COL = 1;
 
-
     private Scanner playerInput;
     private boolean[][] blocked;
     private boolean[][] visited;
@@ -31,10 +30,18 @@ public class MazeGame
 
     public MazeGame(String mazeFile) 
     {
+        this.playerInput = new Scanner(System.in);
+        // try {
+        //     loadMaze(mazeFile);
+        // } catch (FileNotFoundException e) {
+        //     System.out.println("Error loading maze: " + e.getMessage());
+        // }
         
+
     }
 
     public MazeGame(String mazeFile, Scanner playerInput) {
+        this.playerInput = new Scanner(System.in);
     }
 
     public void playGame() {
@@ -46,27 +53,27 @@ public class MazeGame
     }
 
     public int getPlayerRow() {
-        return 0;
+        return this.player[ROW];
     }
 
     public int getPlayerCol() {
-        return 0;
+        return this.player[COL];
     }
 
     public int getGoalRow() {
-        return 0;
+        return this.goal[ROW];
     }
 
     public int getGoalCol() {
-        return 0;
+        return this.goal[COL];
     }
 
     public int getStartRow() {
-        return 0;
+        return this.start[ROW];
     }
 
     public int getStartCol() {
-        return 0;
+        return this.start[COL];
     }
 
     public boolean[][] getBlocked() {
