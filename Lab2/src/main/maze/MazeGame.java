@@ -9,8 +9,7 @@ import java.util.Scanner;
  * @version 2024 08 29
  */
 
-public class MazeGame 
-{
+public class MazeGame {
     public static final int HEIGHT = 19;
     public static final int WIDTH = 39;
     private static final int ROW = 0;
@@ -23,20 +22,17 @@ public class MazeGame
     private int[] goal;
     private int[] start;
 
-    public static void main(String[] args) 
-    {
+    public static void main(String[] args) {
         System.out.println("Nothing is working");
     }
 
-    public MazeGame(String mazeFile) 
-    {
+    public MazeGame(String mazeFile) {
         this.playerInput = new Scanner(System.in);
         // try {
-        //     loadMaze(mazeFile);
+        // loadMaze(mazeFile);
         // } catch (FileNotFoundException e) {
-        //     System.out.println("Error loading maze: " + e.getMessage());
+        // System.out.println("Error loading maze: " + e.getMessage());
         // }
-        
 
     }
 
@@ -89,7 +85,7 @@ public class MazeGame
     }
 
     public void setPlayerRow(int row) {
-        this.player(ROW) = row;
+        // this.player(ROW) = row;
     }
 
     public void setPlayerCol(int col) {
