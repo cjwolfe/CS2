@@ -56,10 +56,10 @@ public class TwoDArraysHomework {
      * @param map Map to display of mines
      */
     public static void showMap(boolean[][] map) {
-        
-        for (int i = 0; i< map.length; i++) {
+
+        for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
-                if map[i][j] == true {
+                if (map[i][j]) {
                     System.out.print("X");
                 } else {
                     System.out.print(" ");
@@ -67,6 +67,7 @@ public class TwoDArraysHomework {
             }
             System.out.println();
         }
+    }
 
     /**
      * createMines method.
