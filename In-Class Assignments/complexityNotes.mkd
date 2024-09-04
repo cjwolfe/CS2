@@ -1,0 +1,22 @@
+Now that we're getting past the basic level of java, let's talk about complexity.
+
+# Big-oh complexity
+
+## Key Ideas
+
+### Time complexity
+Not to be measured due to hardware, instead we're measuring big-oh complexity through the number of statements.
+
+### Big-Oh
+BO notation is used to measure the efficieincy of algorithms. It's not only the measure used, but it's the most common measure.
+We calculate the big-oh of any mathematical function g(n) written O(f(n)), where f(n) refers to the largest order term in the function g(n)
+
+If the biggest term is a constant (with no reference to the size N), the function is a O(1), a constant function
+#### Key Idea:
+Big Oh uses the largest order term
+
+For example, if an algorithm has a runtime complexity function of 3n^2 + 2n + 1, the largest order term is n^2. So, we express the algorithm's efficiency as O(n^2).
+
+Don't use the constant, only use the highest order term, and don't usually use the base on log terms.
+
+Big Oh is an upper bounds, it can be used to predict running times.
