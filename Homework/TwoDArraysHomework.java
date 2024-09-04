@@ -78,11 +78,20 @@ public class TwoDArraysHomework {
      * Make sure that your code ONLY and EXACTLY sets 10
      * entries to true.
      * 
-     * @return <brief description of what this method returns>
+     * @return returns the mines array with 10 random mines
      */
     public static boolean[][] createMines() {
-        // TODO: finish this method and fix return statement
-        return null;
+        boolean[][] mines = new boolean[10][10];
+        for (int i = 0; i < 10; i++) {
+            int x = (int) (Math.random() * 10);
+            int y = (int) (Math.random() * 10);
+            if (mines[x][y] == false) {
+                mines[x][y] = true;
+            } else {
+                i--;
+            }
+        }
+        return mines;
     }
 
     /**
@@ -93,12 +102,19 @@ public class TwoDArraysHomework {
      * 1-dimensional array of double containing the averages of
      * each row of the 2-dimensional array.
      * 
-     * @param list <put a description of list parameter here>
-     * @return <brief description of what this method returns>
+     * @param list 2d array of doubles to determine averages of
+     * @return returns the averages of each row
      */
     public static double[] findAverages(double[][] list) {
-        // TODO: finish this method and fix return statement
-        return null;
+        double[] averages = new double[list.length];
+        for (int i = 0; i < list.length; i++) {
+            double sum = 0;
+            for (int j = 0; j < list[i].length; j++) {
+                sum += list[i][j];
+            }
+            averages[i] = sum / list[i].length;
+        }
+        return averages;
     }
 
     /**
@@ -113,7 +129,7 @@ public class TwoDArraysHomework {
      * @return <brief description of what this method returns>
      */
     public static boolean noDuplicates(int[][] array) {
-        // TODO: finish this method and fix return statement
+        // todo: implement this method
         return false;
     }
 }
