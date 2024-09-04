@@ -53,11 +53,20 @@ public class TwoDArraysHomework {
      * is true, then an ‘X’ is printed, otherwise a space (' ')
      * is printed.
      * 
-     * @param map <put a description of map parameter here>
+     * @param map Map to display of mines
      */
     public static void showMap(boolean[][] map) {
-        // TODO: finish this method
-    }
+        
+        for (int i = 0; i< map.length; i++) {
+            for (int j = 0; j < map[i].length; j++) {
+                if map[i][j] == true {
+                    System.out.print("X");
+                } else {
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();
+        }
 
     /**
      * createMines method.
