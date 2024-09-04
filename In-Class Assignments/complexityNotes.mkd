@@ -19,4 +19,7 @@ For example, if an algorithm has a runtime complexity function of 3n^2 + 2n + 1,
 
 Don't use the constant, only use the highest order term, and don't usually use the base on log terms.
 
-Big Oh is an upper bounds, it can be used to predict running times.
+Big Oh is an upper bounds or overestimate, it can be used to predict running times.
+
+Logarhythmic algorithms tend to plateau quite quickly, and doubling the runtime, you'll have to pick a much larger number
+
