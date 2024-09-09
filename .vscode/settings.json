@@ -5,5 +5,6 @@
         "Lab3/lib/junit-platform-console-standalone-1.8.2.jar",
         "Lab3/lib/LabTests.jar",
         "Lab3/lib/webcat-submitter-1.0.5.jar"
-    ]
+    ],
+    "java.compile.nullAnalysis.mode": "disabled"
 }
