@@ -1,12 +1,10 @@
 package apps;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import javax.swing.*;
 
-public class Calculator
+public class Calculator //extends JFrame 
 {
 	private final int X_LOC = 100;
     private final int Y_LOC = 100;
@@ -38,6 +36,10 @@ public class Calculator
 
 
         
+    }
+    // Implement the actionPerformed method required by the ActionListener interface
+    public void actionPerformed(ActionEvent e) {
+        // Add your code here to handle the action events
     }
 
     public JFrame getFrame()
@@ -73,15 +75,13 @@ public class Calculator
         // JPanel inputPanel = new JPanel();
         // frame.setLayout(FlowLayout);
         JPanel inputPanel = new JPanel();
-        JTextField leftOperand = new JTextField(5);
+        JTextField leftOperand = new JTextField(6);
         inputPanel.add(leftOperand);
         JTextField rightOperand = new JTextField(5);
-        
         inputPanel.add(rightOperand);
-        //double x = Double.parseDouble(leftOperand.getText());
-        // could use check block but i don't wanna
-        //double x2 = Double.parseDouble(x);
-        //double y = Double.parseDouble(rightOperand.getText());
+
+
+
         frame.add(inputPanel);
 
 
@@ -89,28 +89,86 @@ public class Calculator
 
     private void initializeResults()
     {
-        JPanel resultsPanel = new JPanel();
+        JPanel resultLabel = new JPanel();
         JLabel resultPreamble = new JLabel(RESULT_PREAMBLE);
         JLabel result = new JLabel("wow cool");
 
-        resultsPanel.add(resultPreamble);
-        resultsPanel.add(result);
+        resultLabel.add(resultPreamble);
+        resultLabel.add(result);
 
-        frame.add(resultsPanel);
+        frame.add(resultLabel, BorderLayout.EAST);
     }
 
     private void initializeButtons()
     {
         JPanel buttonPanel = new JPanel();
-        JButton button0 = new JButton();
-        buttonPanel.add(button0);
-        JButton button1 = new JButton();
-        buttonPanel.add(button1);
-        JButton button2 = new JButton();
-        buttonPanel.add(button2);
-        JButton button3 = new JButton();
-        buttonPanel.add(button3);
-        frame.add(buttonPanel);
+        buttonPanel.setLayout(new GridLayout(2, 2, 10, 10));
+
+        JButton addButton = new JButton("ADD");
+        JButton subButton = new JButton("SUB");
+        JButton multButton = new JButton("MULT");
+        JButton divButton = new JButton("DIV");
+
+        buttonPanel.add(addButton);
+        buttonPanel.add(subButton);
+        buttonPanel.add(multButton);
+        buttonPanel.add(divButton);
+
+        addButton.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                performOperation('+');
+            }
+        });
+        subButton.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                performOperation('-');
+            }
+        });
+
+        multButton.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                performOperation('*');
+            }
+        });
+
+        divButton.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                performOperation('/');
+            }
+        });
+
+
+        
+
+        frame.add(buttonPanel, BorderLayout.SOUTH);
+
+        
+    }
+    
+    private void performOperation(char operator) {
+        double num1 = getLeftNum(); // Assuming you have getLeftNum()
+        double num2 = getRightNum(); // Assuming you have getRightNum()
+        double result = 0;
+
+        switch (operator) {
+            case '+' -> result = num1 + num2;
+            case '-' -> result = num1 - num2;
+            case '*' -> result = num1 * num2;
+            case '/' -> { 
+                if (num2 == 0) {
+                    result = Double.NaN;
+                } else {
+                    result = num1 / num2;
+                }
+                }
+        }
+
+        // Update result on the display
+        updateResult(result);
     }
 
     private double getLeftNum()
@@ -123,6 +181,7 @@ public class Calculator
     }
     private void updateResult(double result)
     {
+        
 
     }
 
