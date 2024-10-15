@@ -1,4 +1,4 @@
-package storage;
+package main.storage;
 public class DoubleArraySeq {
     private static final int DEFAULT_CAPACITY = 10;
     private double[] data;
