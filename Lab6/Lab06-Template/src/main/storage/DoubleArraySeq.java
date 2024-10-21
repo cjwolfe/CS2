@@ -1,7 +1,6 @@
-package main.storage;
-import java.util.*;
-public class DoubleArraySeq {
-    private static final int DEFAULT_CAPACITY = 10;
+package storage;
+public class DoubleArraySeq implements Cloneable {
+    public static final int DEFAULT_CAPACITY = 10;
     private double[] data;
     private int manyItems;
     private int currentIndex;
@@ -70,6 +69,8 @@ public class DoubleArraySeq {
     public void advance() {
         if (isCurrent()) {
             currentIndex++;
+        } else {
+            throw new IllegalStateException("No current element, advance");
         }
     }
 
@@ -77,7 +78,7 @@ public class DoubleArraySeq {
         if (isCurrent()) {
             return data[currentIndex];
         } else {
-            throw new NoSuchElementException("No current element");
+            throw new IllegalStateException("No current element");
         }
     }
 
@@ -88,7 +89,7 @@ public class DoubleArraySeq {
             }
             manyItems--;
         } else {
-            throw new NoSuchElementException("No current element");
+            throw new IllegalStateException("Illegal State");
         }
     }
 
@@ -104,6 +105,7 @@ public class DoubleArraySeq {
         return manyItems;
     }
 
+    @Override
     public DoubleArraySeq clone() {
         DoubleArraySeq clone = new DoubleArraySeq(data.length);
         clone.manyItems = manyItems;
@@ -117,14 +119,16 @@ public class DoubleArraySeq {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("[");
         for (int i = 0; i < manyItems; i++) {
-            sb.append(data[i]);
+            if (i == currentIndex) {
+            sb.append("[").append(data[i]).append("]");
+            } else {
+            sb.append("<").append(data[i]).append(">");
+            }
             if (i < manyItems - 1) {
-                sb.append(", ");
+            sb.append(", ");
             }
         }
-        sb.append("]");
         return sb.toString();
     }
 
