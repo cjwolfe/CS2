@@ -17,17 +17,27 @@ public class DoubleArraySeq implements Cloneable {
 
     public void addAfter(double element) {
         ensureCapacity(manyItems + 1);
-        if (currentIndex < manyItems - 1) {
+        if (isCurrent()) {
             for (int i = manyItems; i > currentIndex + 1; i--) {
                 data[i] = data[i - 1];
             }
+            data[currentIndex + 1] = element;
+            currentIndex++;
+        } else {
+            data[manyItems] = element;
+            currentIndex = manyItems;
         }
-        data[currentIndex + 1] = element;
         manyItems++;
     }
+    
     public void addBefore(double element) {
         ensureCapacity(manyItems + 1);
-        if (currentIndex > 0) {
+        if (isCurrent()) {
+            for (int i = manyItems; i > currentIndex; i--) {
+                data[i] = data[i - 1];
+            }
+        } else {
+            currentIndex = 0;
             for (int i = manyItems; i > currentIndex; i--) {
                 data[i] = data[i - 1];
             }
@@ -37,7 +47,8 @@ public class DoubleArraySeq implements Cloneable {
     }
 
     public void addAll(DoubleArraySeq addend) {
-        ensureCapacity(manyItems + addend.manyItems);
+        int newCapacity = manyItems + addend.manyItems;
+        ensureCapacity(newCapacity);
         for (int i = 0; i < addend.manyItems; i++) {
             data[manyItems + i] = addend.data[i];
         }
@@ -58,7 +69,9 @@ public class DoubleArraySeq implements Cloneable {
             for (int i = 0; i < manyItems; i++) {
                 newData[i] = data[i];
             }
-            data = newData;
+            if (minimumCapacity > data.length) {
+                data = newData;
+            }
         }
     }
 
@@ -119,16 +132,18 @@ public class DoubleArraySeq implements Cloneable {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
+        sb.append("<");
         for (int i = 0; i < manyItems; i++) {
             if (i == currentIndex) {
-            sb.append("[").append(data[i]).append("]");
+                sb.append("[").append(data[i]).append("]");
             } else {
-            sb.append("<").append(data[i]).append(">");
+                sb.append("<").append(data[i]).append(">");
             }
             if (i < manyItems - 1) {
-            sb.append(", ");
+                sb.append(", ");
             }
         }
+        sb.append(">");
         return sb.toString();
     }
 
@@ -141,7 +156,7 @@ public class DoubleArraySeq implements Cloneable {
             return false;
         }
         DoubleArraySeq otherSeq = (DoubleArraySeq) other;
-        if (manyItems != otherSeq.manyItems) {
+        if (manyItems != otherSeq.manyItems || currentIndex != otherSeq.currentIndex) {
             return false;
         }
         for (int i = 0; i < manyItems; i++) {
