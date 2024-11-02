@@ -10,13 +10,17 @@ import storage.DoubleLinkedSeq;
  */
 public class Demo
 {
-    public static final double A = 1.1;
-    public static final double B = 2.2;
-    public static final double C = 3.3;
-    public static final double D = 4.4;
-    public static final double E = 5.5;
-    public static final double F = 6.6;
-    public static final double G = 7.7;
+    private static final double A = 1.1;
+    private static final double B = 2.2;
+    private static final double C = 3.3;
+    private static final double D = 4.4;
+    private static final double E = 5.5;
+    private static final double F = 6.6;
+    private static final double G = 7.7;
+    private static final double H = 8.8;
+    private static final double I = 9.9;
+    private static final double A2 = 1.2;
+    private static final double B3 = 2.3;
 
     /**
      * The main program.
@@ -27,51 +31,74 @@ public class Demo
      */
     public static void main(String[] args)
     {
-        DoubleLinkedSeq s = test1(new DoubleLinkedSeq());
+        
 
-        DoubleLinkedSeq s1 = test2(new DoubleLinkedSeq());
+        System.out.println("New Test.");
+        DoubleLinkedSeq s1 = new DoubleLinkedSeq();
+        DoubleLinkedSeq s2 = new DoubleLinkedSeq();
+        s1.addAfter(A);
+        System.out.println("S: "+s1);
+        s1.addAfter(C);
+        System.out.println("S: "+s1);
+        s1.addBefore(B);
+        System.out.println("S: "+s1);
 
-        System.out.println("S: " + s);
-        System.out.println("S1: " + s1);
+        s2.addAfter(D);
+        System.out.println("S: "+s2);
+        s2.addAfter(E);
+        System.out.println("S: "+s2);
+        s2.addAfter(F);
+        System.out.println("S: "+s2);
 
-        s.addAll(s1);
+        s1.addAll(s2);
+        System.out.println("S: "+s1);
+        s1.addAll(s1);
+        System.out.println("S Final: "+s1);
+        
 
-        // S: <[7.7], 4.4, 3.3, 5.5, 2.2, 6.6, 1.1, 1.1, 6.6, 5.5, 2.2, 3.3,
-        // 4.4>
-        System.out.println("S: " + s);
+        // DoubleLinkedSeq s1 = test2(new DoubleLinkedSeq());
 
-        s.removeCurrent();
-        // S: <[4.4], 3.3, 5.5, 2.2, 6.6, 1.1, 1.1, 6.6, 5.5, 2.2, 3.3, 4.4>
-        System.out.println("S: " + s);
+        // System.out.println("S: " + s);
+        // System.out.println("S1: " + s1);
 
-        s.removeCurrent();
-        // S: <[3.3], 5.5, 2.2, 6.6, 1.1, 1.1, 6.6, 5.5, 2.2, 3.3, 4.4>
-        System.out.println("S: " + s);
+        // s.addAll(s1);
 
-        s.advance();
-        s.removeCurrent();
-        // S: <3.3, [2.2], 6.6, 1.1, 1.1, 6.6, 5.5, 2.2, 3.3, 4.4>
-        System.out.println("S: " + s);
+        // // S: <[7.7], 4.4, 3.3, 5.5, 2.2, 6.6, 1.1, 1.1, 6.6, 5.5, 2.2, 3.3,
+        // // 4.4>
+        // System.out.println("S: " + s);
 
-        s.advance();
-        s.removeCurrent();
-        // S: <3.3, 2.2, [1.1], 1.1, 6.6, 5.5, 2.2, 3.3, 4.4>
-        System.out.println("S: " + s);
+        // s.removeCurrent();
+        // // S: <[4.4], 3.3, 5.5, 2.2, 6.6, 1.1, 1.1, 6.6, 5.5, 2.2, 3.3, 4.4>
+        // System.out.println("S: " + s);
 
-        s.advance();
-        s.advance();
-        s.advance();
-        s.advance();
-        s.advance();
-        s.advance();
-        s.removeCurrent();
-        // S: <3.3, 2.2, 1.1, 1.1, 6.6, 5.5, 2.2, 3.3>
-        System.out.println("S: " + s);
+        // s.removeCurrent();
+        // // S: <[3.3], 5.5, 2.2, 6.6, 1.1, 1.1, 6.6, 5.5, 2.2, 3.3, 4.4>
+        // System.out.println("S: " + s);
 
-        s.start();
-        s.removeCurrent();
-        // S: <[2.2], 1.1, 1.1, 6.6, 5.5, 2.2, 3.3>
-        System.out.println("S: " + s);
+        // s.advance();
+        // s.removeCurrent();
+        // // S: <3.3, [2.2], 6.6, 1.1, 1.1, 6.6, 5.5, 2.2, 3.3, 4.4>
+        // System.out.println("S: " + s);
+
+        // s.advance();
+        // s.removeCurrent();
+        // // S: <3.3, 2.2, [1.1], 1.1, 6.6, 5.5, 2.2, 3.3, 4.4>
+        // System.out.println("S: " + s);
+
+        // s.advance();
+        // s.advance();
+        // s.advance();
+        // s.advance();
+        // s.advance();
+        // s.advance();
+        // s.removeCurrent();
+        // // S: <3.3, 2.2, 1.1, 1.1, 6.6, 5.5, 2.2, 3.3>
+        // System.out.println("S: " + s);
+
+        // s.start();
+        // s.removeCurrent();
+        // // S: <[2.2], 1.1, 1.1, 6.6, 5.5, 2.2, 3.3>
+        // System.out.println("S: " + s);
     }
 
     /**
