@@ -1,4 +1,4 @@
-package client;
+
 
 /**
  * Demo used to manually test the program.

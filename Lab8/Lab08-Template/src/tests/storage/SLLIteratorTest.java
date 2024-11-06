@@ -14,7 +14,7 @@ import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.Test;
 
-import main.storage.SortedLinkedList;
+import storage.SortedLinkedList;
 
 /**
  * To test SortedLinkedList's iterator.

@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import main.library.Book;
+import library.Book;
 
 /**
  * JUnit tests for the Book class.

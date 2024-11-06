@@ -13,9 +13,9 @@ import java.util.Scanner;
 
 import org.junit.jupiter.api.Test;
 
-import main.library.Book;
-import main.library.BookReader;
-import main.storage.SortedLinkedList;
+import library.Book;
+import library.BookReader;
+import storage.SortedLinkedList;
 
 /**
  * Test cases for the BookReader class.

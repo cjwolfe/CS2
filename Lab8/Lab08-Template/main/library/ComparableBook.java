@@ -1,1 +1,1 @@
-package main.library;
+package library;

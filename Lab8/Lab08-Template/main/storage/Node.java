@@ -1,4 +1,4 @@
-package main.storage;
+package storage;
 
 public class Node<T> {
     private T data;
