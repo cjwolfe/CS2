@@ -11,6 +11,8 @@ import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 
+import main.storage.SortedLinkedList;
+
 /**
  * Old test cases converted to JUnit.
  * 
