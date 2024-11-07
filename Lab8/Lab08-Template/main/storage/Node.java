@@ -15,6 +15,13 @@ public class Node<T> {
         this.data = data;
         this.link = null;
     }
+    
+
+    public Node(String param1, String param2, boolean param3, boolean param4, boolean param5, String[] param6) {
+        // constructor implementation
+        this.data = null;
+        this.link = null;
+    }
 
 
     public Node() {
