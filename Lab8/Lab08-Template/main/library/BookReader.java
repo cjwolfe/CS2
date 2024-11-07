@@ -3,33 +3,45 @@ package library;
 import java.util.*;
 import storage.SortedLinkedList;
 
-public class BookReader implements Iterator<Book>{
+
+public class BookReader {
+    private Scanner fileIn;
     private SortedLinkedList<Book> books;
 
     public BookReader(String filename) {
         books = new SortedLinkedList<>();
-        setFileIn(filename);
+        setFileIn(fileIn);
         readLines();
     }
 
-    public void setFileIn(String filename) {
-        // Code to set the file input
-    }
+    public void setFileIn(Scanner fileIn) {
+            
+                this.fileIn = fileIn;
+            
+        }
 
+    public void readLines() {
+        // Code to read the file line by line and construct Book objects
+        // Code to print books with more than 300 pages
+        for (Book book : books) {
+            if (book.getNumPages() > 300) {
+            System.out.println(book);
+            }
+        }
+        // Code to print books with more than 300 pages
+    }
     public SortedLinkedList<Book> getBooks() {
         return books;
     }
 
-    private void readLines() {
-        // Code to read the file line by line and construct Book objects
-    // Code to print books with more than 300 pages
-    for (Book book : books) {
-        if (book.getNumPages() > 300) {
-        System.out.println(book);
-        }
+    public void printMoreThan300(){
+
     }
-        // Code to print books with more than 300 pages
+
+    public void removeLessThan200(){
+    
     }
+
 
     public double averagePages() {
         double total = 0;
@@ -52,15 +64,15 @@ public class BookReader implements Iterator<Book>{
         return total / count;
     }
 
-    @Override
-    public boolean hasNext() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'hasNext'");
-    }
+    // @Override
+    // public boolean hasNext() {
+    //     // TODO Auto-generated method stub
+    //     throw new UnsupportedOperationException("Unimplemented method 'hasNext'");
+    // }
 
-    @Override
-    public Book next() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'next'");
-    }
+    // @Override
+    // public Book next() {
+    //     // TODO Auto-generated method stub
+    //     throw new UnsupportedOperationException("Unimplemented method 'next'");
+    // }
 }

@@ -74,12 +74,12 @@ public class SortedLinkedList<T extends Comparable<? super T>> implements Iterab
         return current.getData();
     }
 
-    public int getPosition(T element) {
+    public int getPosition(T entry) {
         Node<T> current = head;
         int index = 0;
 
         while (current != null) {
-            if (current.getData().equals(element)) {
+            if (current.getData().equals(entry)) {
                 return index;
             }
 
@@ -90,11 +90,11 @@ public class SortedLinkedList<T extends Comparable<? super T>> implements Iterab
         throw new IllegalArgumentException("Element not found in the list.");
     }
 
-    public boolean contains(T element) {
+    public boolean contains(T entry) {
         Node<T> current = head;
 
         while (current != null) {
-            if (current.getData().equals(element)) {
+            if (current.getData().equals(entry)) {
                 return true;
             }
 
@@ -113,64 +113,75 @@ public class SortedLinkedList<T extends Comparable<? super T>> implements Iterab
     }
 
     public void display() {
-        Node<T> current = head;
+        // Node<T> current = head;
 
-        while (current != null) {
-            System.out.print(current.getData() + " ");
-            current = current.getNext();
-        }
+        // while (current != null) {
+        //     System.out.print(current.getData() + " ");
+        //     current = current.getNext();
+        // }
 
-        System.out.println();
+        // System.out.println();
+    }
+
+    // @Override
+    public Iterator<T> iterator() {
+        return new SLLIterator(head);
     }
 
     private Node<T> getPrevious(T entry) {
-        Node<T> current = head;
-        Node<T> previous = null;
+        // Node<T> current = head;
+        // Node<T> previous = null;
 
-        while (current != null && entry.compareTo(current.getData()) > 0) {
-            previous = current;
-            current = current.getNext();
-        }
+        // while (current != null && entry.compareTo(current.getData()) > 0) {
+        //     previous = current;
+        //     current = current.getNext();
+        // }
 
-        return previous;
+        // return previous;
+        return null;
     }
 
-    private class Node<T> {
-        private T data;
-        private Node<T> next;
+    // private class Node<T> {
+    //     private T data;
+    //     private Node<T> next;
 
-        public Node(T data) {
-            this.data = data;
-            this.next = null;
-        }
+    //     public Node(T data) {
+    //         this.data = data;
+    //         this.next = null;
+    //     }
 
-        public T getData() {
-            return data;
-        }
+    //     public T getData() {
+    //         return data;
+    //     }
 
-        public void setData(T data) {
-            this.data = data;
-        }
+    //     public void setData(T data) {
+    //         this.data = data;
+    //     }
 
-        public Node<T> getNext() {
-            return next;
-        }
+    //     public Node<T> getNext() {
+    //         return next;
+    //     }
 
-        public void setNext(Node<T> next) {
-            this.next = next;
-        }
-    }
+    //     public void setNext(Node<T> next) {
+    //         this.next = next;
+    //     }
+    // }
 
     private class SLLIterator implements Iterator<T> {
-        private Node<T> current;
+        private boolean calledNext;
+        private Node<T> prevNode;
+        private Node<T> currNode;
+        private Node<T> nextNode;
 
-        public SLLIterator() {
-            current = head;
+
+
+        public SLLIterator(Node<T> firstNode) {
+            firstNode = head;
         }
 
         @Override
         public boolean hasNext() {
-            return current != null;
+            return currNode != null;
         }
 
         @Override
@@ -179,8 +190,8 @@ public class SortedLinkedList<T extends Comparable<? super T>> implements Iterab
                 throw new NoSuchElementException();
             }
 
-            T data = current.getData();
-            current = current.getNext();
+            T data = currNode.getData();
+            // currNode = currNode.getNext();
             return data;
         }
 
@@ -190,10 +201,7 @@ public class SortedLinkedList<T extends Comparable<? super T>> implements Iterab
         }
     }
 
-    @Override
-    public Iterator<T> iterator() {
-        return new SLLIterator();
-    }
+    
 }
 
 
