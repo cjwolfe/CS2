@@ -5,16 +5,18 @@ import java.util.*;
 public class SortedLinkedList<T extends Comparable<? super T>> implements Iterable<T> {
     private Node<T> head;
     private int length;
+    
 
     public SortedLinkedList() {
-        // constructor body
+        head = null;
+        length = 0;
     }
 
     public void add(T data) {
         Node<T> newNode = new Node<>(data);
 
         if (head == null || data.compareTo(head.getData()) < 0) {
-            newNode.setNext(head);
+            newNode.setLink(head);
             head = newNode;
         } else {
             Node<T> current = head;
@@ -22,11 +24,11 @@ public class SortedLinkedList<T extends Comparable<? super T>> implements Iterab
 
             while (current != null && data.compareTo(current.getData()) > 0) {
                 previous = current;
-                current = current.getNext();
+                current = current.getLink();
             }
 
-            newNode.setNext(current);
-            previous.setNext(newNode);
+            newNode.setLink(current);
+            previous.setLink(newNode);
         }
 
         length++;
@@ -42,18 +44,19 @@ public class SortedLinkedList<T extends Comparable<? super T>> implements Iterab
 
         for (int i = 0; i < index; i++) {
             previous = current;
-            current = current.getNext();
+            current = current.getLink();
         }
 
         if (previous == null) {
-            head = current.getNext();
+            head = current.getLink();
         } else {
-            previous.setNext(current.getNext());
+            previous.setLink(current.getLink());
         }
 
         length--;
         return current.getData();
     }
+        
 
     public void clear() {
         head = null;
@@ -62,16 +65,23 @@ public class SortedLinkedList<T extends Comparable<? super T>> implements Iterab
 
     public T getEntry(int index) {
         if (index < 0 || index >= length) {
-            return null;
+            throw new IndexOutOfBoundsException("Invalid index");
         }
 
-        Node<T> current = head;
-
-        for (int i = 0; i < index; i++) {
-            current = current.getNext();
+        if (index == 0) {
+            T removedData = head.getData();
+            head = head.getLink();
+            length--;
+            return removedData;
         }
 
-        return current.getData();
+        Node<T> previous = getNodeAtIndex(index - 1);
+        Node<T> current = previous.getLink();
+        T removedData = current.getData();
+        previous.setLink(current.getLink());
+        length--;
+        return removedData;
+
     }
 
     public int getPosition(T entry) {
@@ -83,7 +93,7 @@ public class SortedLinkedList<T extends Comparable<? super T>> implements Iterab
                 return index;
             }
 
-            current = current.getNext();
+            // current = current.getNext();
             index++;
         }
 
@@ -98,10 +108,20 @@ public class SortedLinkedList<T extends Comparable<? super T>> implements Iterab
                 return true;
             }
 
-            current = current.getNext();
+            // current = current.getNext();
         }
 
         return false;
+    }
+
+    private Node<T> getNodeAtIndex(int index) {
+        Node<T> current = head;
+
+        for (int i = 0; i < index; i++) {
+            current = current.getLink();
+        }
+
+        return current;
     }
 
     public int getLength() {
@@ -113,7 +133,7 @@ public class SortedLinkedList<T extends Comparable<? super T>> implements Iterab
     }
 
     public void display() {
-        // Node<T> current = head;
+        Node<T> current = head;
 
         // while (current != null) {
         //     System.out.print(current.getData() + " ");
@@ -123,60 +143,36 @@ public class SortedLinkedList<T extends Comparable<? super T>> implements Iterab
         // System.out.println();
     }
 
-    // @Override
+    @Override
     public Iterator<T> iterator() {
         return new SLLIterator(head);
     }
 
+
     private Node<T> getPrevious(T entry) {
-        // Node<T> current = head;
-        // Node<T> previous = null;
-
-        // while (current != null && entry.compareTo(current.getData()) > 0) {
-        //     previous = current;
-        //     current = current.getNext();
-        // }
-
-        // return previous;
-        return null;
+        Node<T> current = head;
+        Node<T> previous = null;
+    
+        while (current != null && entry.compareTo(current.getData()) > 0) {
+            previous = current;
+            current = current.getLink();
+        }
+    
+        return previous;
+        //return null;
     }
 
-    // private class Node<T> {
-    //     private T data;
-    //     private Node<T> next;
-
-    //     public Node(T data) {
-    //         this.data = data;
-    //         this.next = null;
-    //     }
-
-    //     public T getData() {
-    //         return data;
-    //     }
-
-    //     public void setData(T data) {
-    //         this.data = data;
-    //     }
-
-    //     public Node<T> getNext() {
-    //         return next;
-    //     }
-
-    //     public void setNext(Node<T> next) {
-    //         this.next = next;
-    //     }
-    // }
-
     private class SLLIterator implements Iterator<T> {
-        private boolean calledNext;
+        private boolean calledNext = false;
         private Node<T> prevNode;
         private Node<T> currNode;
         private Node<T> nextNode;
 
-
-
         public SLLIterator(Node<T> firstNode) {
-            firstNode = head;
+            this.currNode = firstNode;
+            this.nextNode = firstNode != null ? firstNode.getLink() : null;
+            this.calledNext = false;
+            this.prevNode = null;
         }
 
         @Override
@@ -191,15 +187,31 @@ public class SortedLinkedList<T extends Comparable<? super T>> implements Iterab
             }
 
             T data = currNode.getData();
-            // currNode = currNode.getNext();
+            prevNode = currNode;
+            currNode = currNode.getLink();
+            calledNext = true;
             return data;
         }
 
         @Override
         public void remove() {
-            throw new UnsupportedOperationException("Remove operation is not supported.");
+            if (!calledNext) {
+                throw new IllegalStateException("remove() called without a previous call to next()");
+            }
+
+            if (prevNode == null) {
+                // Removing the first node
+                head = currNode.getLink();
+            } else {
+                prevNode.setLink(currNode.getLink());
+            }
+
+            currNode = prevNode;
+            calledNext = false;
+            length--;
         }
     }
+    
 
     
 }
