@@ -21,29 +21,37 @@ public class BookReader {
         }
 
     public void readLines() {
-        // Code to read the file line by line and construct Book objects
-        // Code to print books with more than 300 pages
+
         for (Book book : books) {
             if (book.getNumPages() > 300) {
             System.out.println(book);
             }
         }
-        // Code to print books with more than 300 pages
+
     }
     public SortedLinkedList<Book> getBooks() {
         return books;
     }
 
     public void printMoreThan300(){
-
+        for (Book book : books) {
+            if (book.getNumPages() > 300) {
+                System.out.println(book);
+            }
+        }
     }
 
-    public void removeLessThan200(){
-    
+    public void removeLessThan200() {
+        Iterator<Book> iterator = books.iterator();
+        while (iterator.hasNext()) {
+            Book book = iterator.next();
+            if (book.getNumPages() < 200) {
+                iterator.remove();
+            }
+        }
     }
 
-
-    public double averagePages() {
+    public double averagePages(){
         double total = 0;
         int count = 0;
         for (Book book : books) {
@@ -60,19 +68,8 @@ public class BookReader {
                 iterator.remove();
             }
         }
-        // Code to remove books with less than 200 pages
         return total / count;
     }
 
-    // @Override
-    // public boolean hasNext() {
-    //     // TODO Auto-generated method stub
-    //     throw new UnsupportedOperationException("Unimplemented method 'hasNext'");
-    // }
 
-    // @Override
-    // public Book next() {
-    //     // TODO Auto-generated method stub
-    //     throw new UnsupportedOperationException("Unimplemented method 'next'");
-    // }
 }
