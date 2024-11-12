@@ -6,13 +6,15 @@ import javax.swing.*;
 
 public class Calculator //extends JFrame 
 {
-	private final int X_LOC = 100;
-    private final int Y_LOC = 100;
-    private final int WIDTH = 400;
-    private final int HEIGHT = 400;
-    private final String NAME = "Cool Calculator";
-    private final String RESULT_PREAMBLE = "Result = ";
-    private final String ERROR_MESSAGE = "Error";
+	private final static int X_LOC = 100;
+    private final static int Y_LOC = 100;
+    private final static int WIDTH = 400;
+    private final static int HEIGHT = 400;
+    private final static String NAME = "Cool Calculator";
+    private final static String RESULT_PREAMBLE = "Result = ";
+    private final static String ERROR_MESSAGE = "Error";
+    private JTextField leftOperand;
+    private JTextField rightOperand;
 
     private JFrame frame;
     // private JTextField leftOpField;
@@ -75,9 +77,9 @@ public class Calculator //extends JFrame
         // JPanel inputPanel = new JPanel();
         // frame.setLayout(FlowLayout);
         JPanel inputPanel = new JPanel();
-        JTextField leftOperand = new JTextField(6);
+        leftOperand = new JTextField(6);
         inputPanel.add(leftOperand);
-        JTextField rightOperand = new JTextField(5);
+        rightOperand = new JTextField(5);
         inputPanel.add(rightOperand);
 
 
@@ -89,15 +91,18 @@ public class Calculator //extends JFrame
 
     private void initializeResults()
     {
-        JPanel resultLabel = new JPanel();
+        JPanel resultPanel = new JPanel();
+        resultPanel.setLayout(new FlowLayout());
+
         JLabel resultPreamble = new JLabel(RESULT_PREAMBLE);
-        JLabel result = new JLabel("wow cool");
+        JLabel result = new JLabel();
 
-        resultLabel.add(resultPreamble);
-        resultLabel.add(result);
+        resultPanel.add(resultPreamble);
+        resultPanel.add(result);
 
-        frame.add(resultLabel, BorderLayout.EAST);
+        frame.add(resultPanel, BorderLayout.EAST);
     }
+        
 
     private void initializeButtons()
     {
@@ -118,12 +123,16 @@ public class Calculator //extends JFrame
             @Override
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 performOperation('+');
+                double result = getLeftNum() + getRightNum();
+                updateResult(result);
             }
         });
         subButton.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 performOperation('-');
+                double result = getLeftNum() - getRightNum();
+                updateResult(result);
             }
         });
 
@@ -131,6 +140,8 @@ public class Calculator //extends JFrame
             @Override
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 performOperation('*');
+                double result = getLeftNum() * getRightNum();
+                updateResult(result);
             }
         });
 
@@ -138,6 +149,8 @@ public class Calculator //extends JFrame
             @Override
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 performOperation('/');
+                double result = getLeftNum() / getRightNum();
+                updateResult(result);
             }
         });
 
@@ -171,18 +184,19 @@ public class Calculator //extends JFrame
         updateResult(result);
     }
 
+
+    
     private double getLeftNum()
     {
-        return 1.0;
+        return Double.parseDouble(leftOperand.getText());
     }
     private double getRightNum()
     {
-        return 1.0;
+        return Double.parseDouble(rightOperand.getText());
     }
     private void updateResult(double result)
     {
-        
-
+        // Update the result here
     }
 
 

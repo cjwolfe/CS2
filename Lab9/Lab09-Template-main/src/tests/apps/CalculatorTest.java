@@ -20,6 +20,8 @@ import javax.swing.JTextField;
 import org.junit.Before;
 import org.junit.Test;
 
+import src.apps.Calculator;
+
 /**
  * This class tests the Calculator GUI.
  *
