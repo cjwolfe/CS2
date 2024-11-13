@@ -1,10 +1,8 @@
 package apps;
 import java.awt.BorderLayout;
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import apps.ExpressionEvaluator;
-import java.util.*;
+import javax.swing.*;
 
 
 public class Calculator{
@@ -16,22 +14,23 @@ public class Calculator{
     private static final String RESULT_PREAMBLE = "Result = ";
     private static final String ERROR_MESSAGE = "Error";
     private JFrame frame;
-
-
     private JLabel resultLabel;
     private JTextField infixExpression;
 
+    //working
     public Calculator(){
         createFrame();
         initializeComponents();
         displayFrame();
     }
 
+    //working
     public JFrame getFrame(){
     
         return frame;
     }
 
+    //working
     private void createFrame()
     {
         frame = new JFrame();
@@ -41,6 +40,7 @@ public class Calculator{
         frame.setTitle(NAME);
     }
 
+    //working
     private void initializeComponents()
     {
         initializeInput();
@@ -48,56 +48,79 @@ public class Calculator{
         initializeButtons();
     }
 
+    //working
     private void displayFrame()
     {
         frame.pack();
         frame.setVisible(true);
     }
 
-    private void initializeInput(){
+    //working
+    private void initializeInput() {
         JPanel inputPanel = new JPanel();
-        infixExpression = new JTextField(6);
+        infixExpression = new JTextField(20);
+        infixExpression.setName("infixExpression"); // Set the name for the infix expression text field
         inputPanel.add(infixExpression);
-
-
-
-
         frame.add(inputPanel, BorderLayout.NORTH);
     }
 
-    private void initializeResult(){
-        resultLabel = new JLabel(RESULT_PREAMBLE);
-        resultLabel.setHorizontalAlignment(JLabel.CENTER);
-        frame.add(resultLabel, BorderLayout.CENTER);
+    //likely working, but in the middle it should get the result?
+    private void initializeResult() {
+        JPanel resultPanel = new JPanel();
+        JLabel resultPreamble = new JLabel(RESULT_PREAMBLE);
+        resultPreamble.setName("resultPreamble"); 
+        resultLabel = new JLabel(""); 
+        resultLabel.setName("resultLabel"); 
+        resultPanel.add(resultPreamble);
+        resultPanel.add(resultLabel);
+        frame.add(resultPanel, BorderLayout.CENTER);
     }
-
         
-
+    //likely working
     private void initializeButtons() {
         JPanel buttonPanel = new JPanel();
-        JButton evaluateButton = new JButton("Evaluate");
-
-        evaluateButton.addActionListener(new ActionListener() {
+        JButton calculateButton = new JButton("Evaluate");
+        calculateButton.setName("calculateButton");
+    
+        calculateButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                calculate();
+                String result = calculate();
+                updateResult(result);
             }
         });
 
-        buttonPanel.add(evaluateButton);
+        JButton clearButton = new JButton("Clear");
+        clearButton.setName("clearButton"); 
+
+        clearButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                infixExpression.setText("");
+                updateResult("");
+            }
+        });
+    
+        buttonPanel.add(calculateButton);
+        buttonPanel.add(clearButton);
         frame.add(buttonPanel, BorderLayout.SOUTH);
     }
-
+    
+    //likely working
     private String calculate() {
-        String infix = infixExpression.getText();
-        String postfix = ExpressionEvaluator.toPostfix(infix);
-        double resultValue = evaluatePostfix(postfix);
-        //updateResult(String.valueOf(resultValue));
-        return String.valueOf(resultValue);
+        try {
+            String infix = infixExpression.getText();
+            String postfix = ExpressionEvaluator.toPostfix(infix);
+            if (postfix.contains("Error")) {
+                return postfix;
+            }
+            double resultValue = ExpressionEvaluator.evaluate(postfix);
+            return String.valueOf(resultValue);
+        } catch (Exception e) {
+            return ERROR_MESSAGE;
+        }
     }
 
     private String toPostfix(String infix) {
-        // Implement the infix to postfix conversion logic here
-        // This is a placeholder implementation
+
         String result = ExpressionEvaluator.toPostfix(infix);
 
 
@@ -105,35 +128,12 @@ public class Calculator{
     }
 
     private double evaluatePostfix(String postfix) {
-        Stack<Double> stack = new Stack<>();
-        for (int i = 0; i < postfix.length(); i++) {
-            char c = postfix.charAt(i);
-            if (Character.isDigit(c)) {
-                stack.push((double) (c - '0'));
-            } else {
-                double val1 = stack.pop();
-                double val2 = stack.pop();
-                switch (c) {
-                    case '+':
-                        stack.push(val2 + val1);
-                        break;
-                    case '-':
-                        stack.push(val2 - val1);
-                        break;
-                    case '*':
-                        stack.push(val2 * val1);
-                        break;
-                    case '/':
-                        stack.push(val2 / val1);
-                        break;
-                }
-            }
-        }
-        return stack.pop();
+        double result = ExpressionEvaluator.evaluate(postfix);
+        return result;
     }
 
 
-
+    //likely working
     private void updateResult(String resultText) {
         resultLabel.setText(resultText);
     }

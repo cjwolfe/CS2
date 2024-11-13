@@ -7,48 +7,66 @@ public class ExpressionEvaluator {
     private static final Pattern UNSIGNED_DOUBLE = Pattern.compile("((\\d+\\.?\\d*)|(\\.\\d+))([Ee][-+]?\\d+)?.*?");;
     private static final Pattern CHARACTER = Pattern.compile("\\S.*?");;
 
-    public static String toPostfix(String expression){
+    public static String toPostfix(String expression) {
         StringBuilder result = new StringBuilder();
-        Scanner input = new Scanner(expression);
-
         Stack<Character> stack = new Stack<>();
+        StringTokenizer tokenizer = new StringTokenizer(expression, "()+-*/ ", true);
+        boolean lastWasOperand = false;
+        boolean lastWasOperator = false;
 
-
-        while (input.hasNext()) {
-            String token = input.findInLine(CHARACTER);
-            if (token == null){break;}
+        while (tokenizer.hasMoreTokens()) {
+            String token = tokenizer.nextToken().trim();
+            if (token.isEmpty()) {
+                continue;
+            }
 
             char ch = token.charAt(0);
 
-            if (ch == '('){
+            if (ch == '(') {
                 stack.push(ch);
-            } else if (Character.isDigit(ch) || ch == '.'){
+                lastWasOperand = false;
+                lastWasOperator = false;
+            } else if (Character.isDigit(ch)) {
+                // Read the entire number
                 result.append(token).append(' ');
-            } else if (ch == '+' || ch == '-' || ch == '*' || ch == '/'){
-                while(!stack.isEmpty() && precedence(stack.peek()) >= precedence(ch)){
+                if (lastWasOperand) {
+                    return "Error: Missing operator";
+                }
+                lastWasOperand = true;
+                lastWasOperator = false;
+            } else if (ch == '+' || ch == '-' || ch == '*' || ch == '/') {
+                if (lastWasOperator) {
+                    return "Error: Missing operand";
+                }
+                while (!stack.isEmpty() && precedence(stack.peek()) >= precedence(ch)) {
                     result.append(stack.pop()).append(' ');
                 }
                 stack.push(ch);
-            } else if (ch ==')') {
-                while(!stack.isEmpty() && stack.peek() != '(') {
+                lastWasOperand = false;
+                lastWasOperator = true;
+            } else if (ch == ')') {
+                while (!stack.isEmpty() && stack.peek() != '(') {
                     result.append(stack.pop()).append(' ');
                 }
                 if (stack.isEmpty()) {
                     return "Error: Unbalanced parentheses";
                 }
                 stack.pop(); // discard the left parenthesis
-            }
-
-            while (!stack.isEmpty()) {
-                if (stack.peek() == '(') {
-                    return "Error: Unbalanced parentheses";
-                }
-                result.append(stack.pop()).append(' ');
+                lastWasOperand = true;
+                lastWasOperator = false;
+            } else {
+                return "Error: Invalid character";
             }
         }
-            input.close();
-            return result.toString().trim();
-        
+
+        while (!stack.isEmpty()) {
+            if (stack.peek() == '(') {
+                return "Error: Unbalanced parentheses";
+            }
+            result.append(stack.pop()).append(' ');
+        }
+
+        return result.toString().trim();
     }
 
 
@@ -66,31 +84,35 @@ public class ExpressionEvaluator {
         }
     }
 
-    private double evaluate(String postfixExpression) {
+    public static double evaluate(String postfix) {
         Stack<Double> stack = new Stack<>();
-        for (int i = 0; i < postfixExpression.length(); i++) {
-            char c = postfixExpression.charAt(i);
-            if (Character.isDigit(c)) {
-                stack.push((double) (c - '0'));
+        StringTokenizer tokenizer = new StringTokenizer(postfix);
+
+        while (tokenizer.hasMoreTokens()) {
+            String token = tokenizer.nextToken();
+
+            if (token.matches("-?\\d+(\\.\\d+)?")) {
+                stack.push(Double.parseDouble(token));
             } else {
                 double val1 = stack.pop();
                 double val2 = stack.pop();
-                switch (c) {
-                    case '+':
+                switch (token) {
+                    case "+":
                         stack.push(val2 + val1);
                         break;
-                    case '-':
+                    case "-":
                         stack.push(val2 - val1);
                         break;
-                    case '*':
+                    case "*":
                         stack.push(val2 * val1);
                         break;
-                    case '/':
+                    case "/":
                         stack.push(val2 / val1);
                         break;
                 }
             }
         }
+
         return stack.pop();
     }
 
