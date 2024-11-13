@@ -8,65 +8,90 @@ public class ExpressionEvaluator {
     private static final Pattern CHARACTER = Pattern.compile("\\S.*?");;
 
     public static String toPostfix(String expression){
-        String result = "";
+        StringBuilder result = new StringBuilder();
         Scanner input = new Scanner(expression);
 
-        Stack<Integer> stack = new Stack<>();
+        Stack<Character> stack = new Stack<>();
 
 
         while (input.hasNext()) {
-            //String token = input.next();
-            try {
-                while (input.hasNext()){                
-                if (input.hasNext(UNSIGNED_DOUBLE)) {
-                    stack.push(Integer.parseInt(input.next()));
-                } else if (true) {
-                    result += input.findInLine(UNSIGNED_DOUBLE);
-                }
+            String token = input.findInLine(CHARACTER);
+            if (token == null){break;}
 
+            char ch = token.charAt(0);
+
+            if (ch == '('){
+                stack.push(ch);
+            } else if (Character.isDigit(ch) || ch == '.'){
+                result.append(token).append(' ');
+            } else if (ch == '+' || ch == '-' || ch == '*' || ch == '/'){
+                while(!stack.isEmpty() && precedence(stack.peek()) >= precedence(ch)){
+                    result.append(stack.pop()).append(' ');
+                }
+                stack.push(ch);
+            } else if (ch ==')') {
+                while(!stack.isEmpty() && stack.peek() != '(') {
+                    result.append(stack.pop()).append(' ');
+                }
+                if (stack.isEmpty()) {
+                    return "Error: Unbalanced parentheses";
+                }
+                stack.pop(); // discard the left parenthesis
             }
-            } catch (Exception e) {
-                return null;
+
+            while (!stack.isEmpty()) {
+                if (stack.peek() == '(') {
+                    return "Error: Unbalanced parentheses";
+                }
+                result.append(stack.pop()).append(' ');
             }
         }
-
-        input.close();
-
+            input.close();
+            return result.toString().trim();
         
-
-//         do
-//    if (the next input is a left parenthesis)
-//       Read the left parenthesis and push it onto the stack.
-//    else if (the next input is a number or other operand)
-//       Read the operand and write it to the output.
-//    else if (the next input is one of the operation symbols)
-//    {
-//       Pop and print operations off the stack until one of three things occurs: (1) The
-//       stack becomes empty, (2) the next symbol on the stack is a left parenthesis,
-//       or (3) the next symbol on the stack is an operation with lower precedence than
-//       the next input symbol. When one of these situations occurs, stop popping, read
-//       the next input symbol, and push this symbol onto the stack.
-//    }
-//    else
-//    {
-//       Read and discard the next input symbol (which should be a right parenthesis).
-//       Pop and print operations off the stack until the next symbol on the stack is a
-//       left parenthesis. (If no left parenthesis is encountered, then print an error message
-//       indicating unbalanced parentheses and halt.) Finally, pop and discard the
-//       left parenthesis.
-//    }
-// while (there is more of the expression to read);
-
-
-
-        return result;
     }
 
-    public static double evaluate(String postfixExpression){
-        double result = 0;
 
-        return result;
-    
+
+    private static int precedence(char operator) {
+        switch (operator) {
+            case '+':
+            case '-':
+                return 1;
+            case '*':
+            case '/':
+                return 2;
+            default:
+                return -1;
+        }
+    }
+
+    private double evaluate(String postfixExpression) {
+        Stack<Double> stack = new Stack<>();
+        for (int i = 0; i < postfixExpression.length(); i++) {
+            char c = postfixExpression.charAt(i);
+            if (Character.isDigit(c)) {
+                stack.push((double) (c - '0'));
+            } else {
+                double val1 = stack.pop();
+                double val2 = stack.pop();
+                switch (c) {
+                    case '+':
+                        stack.push(val2 + val1);
+                        break;
+                    case '-':
+                        stack.push(val2 - val1);
+                        break;
+                    case '*':
+                        stack.push(val2 * val1);
+                        break;
+                    case '/':
+                        stack.push(val2 / val1);
+                        break;
+                }
+            }
+        }
+        return stack.pop();
     }
 
     private static boolean higherPrecedence(char current, char top){
