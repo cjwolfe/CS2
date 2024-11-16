@@ -92,4 +92,35 @@ public class MazeSolver
         }
         System.out.println();
     }
+
+
+    public String findSolution(){
+        String result = "";
+        //mazeFile.getBoard;
+
+
+        return null;
+    }
+
+    private String backtrack(int row, int col, String path){
+
+        // if board[row-1][col] is on the board and has not been visited
+        //{
+        //  result = call to backgtrack with row-1 and col
+        //     if result isn't null
+        //  {
+        //      return result
+        //  }
+        //}
+        
+        
+        
+        
+        String result = "";
+
+
+        return result;
+    
+    }
+
 }
