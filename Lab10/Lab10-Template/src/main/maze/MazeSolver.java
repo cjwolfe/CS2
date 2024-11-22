@@ -13,6 +13,7 @@ import java.util.Scanner;
  */
 public class MazeSolver
 {
+    private boolean[][] visited;
     /**
      * The height of game maps.
      */
@@ -36,6 +37,8 @@ public class MazeSolver
      */
     public MazeSolver(String mazeFile)
     {
+        wall = new boolean[HEIGHT][WIDTH];
+        visited = new boolean[HEIGHT][WIDTH];
         loadMaze(mazeFile);
     }
 
@@ -95,32 +98,57 @@ public class MazeSolver
 
 
     public String findSolution(){
-        String result = "";
-        //mazeFile.getBoard;
-
-
-        return null;
-    }
-
-    private String backtrack(int row, int col, String path){
-
-        // if board[row-1][col] is on the board and has not been visited
-        //{
-        //  result = call to backgtrack with row-1 and col
-        //     if result isn't null
-        //  {
-        //      return result
-        //  }
-        //}
-        
-        
-        
-        
-        String result = "";
-
-
+        String result = backtrack(0, 0, "");
         return result;
-    
     }
 
+    private String backtrack(int row, int col, String path) {
+        // Base case: Check if we've reached the goal
+        if (row == HEIGHT - 1 && col == WIDTH - 1) {
+            return path;
+        }
+
+        // Mark the current cell as visited
+        visited[row][col] = true;
+
+        // Try moving in each direction: down, up, right, left
+        if (isValidMove(row + 1, col)) { // Down
+            String result = backtrack(row + 1, col, path + "down ");
+            if (result != null) return result;
+        }
+        if (isValidMove(row - 1, col)) { // Up
+            String result = backtrack(row - 1, col, path + "up ");
+            if (result != null) return result;
+        }
+        if (isValidMove(row, col + 1)) { // Right
+            String result = backtrack(row, col + 1, path + "right ");
+            if (result != null) return result;
+        }
+        if (isValidMove(row, col - 1)) { // Left
+            String result = backtrack(row, col - 1, path + "left ");
+            if (result != null) return result;
+        }
+
+        // Backtrack: Unmark this cell before returning
+        visited[row][col] = false;
+
+        return null; // No solution found from this position
+    }
+    
+
+
+
+    /**
+     * Checks if a position is valid and not visited yet.
+     * 
+     * @param row the row index of the position.
+     * @param col the column index of the position.
+     * @param visited a 2D array indicating the visited positions.
+     * @return true if the position is valid and not visited, false otherwise.
+     */
+    private boolean isValidMove(int row, int col) {
+        return row >= 0 && row < HEIGHT && col >= 0 && col < WIDTH
+                && !wall[row][col] && !visited[row][col];
+    }
 }
+
