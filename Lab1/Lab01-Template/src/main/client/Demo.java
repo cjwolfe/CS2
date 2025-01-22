@@ -1,6 +1,6 @@
 package client;
 
-import deck.Deck;
+import deck.*;
 
 /**
  * Demo used to manually test the deck and cards.
@@ -19,6 +19,7 @@ public class Demo
      */
     public static void main(String[] args) 
     {
+        System.out.println("test");
         Deck deck = new Deck();
         System.out.println(deck);
         deck.shuffleDeck();
