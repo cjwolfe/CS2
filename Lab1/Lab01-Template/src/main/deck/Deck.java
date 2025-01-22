@@ -29,7 +29,7 @@ public void initialize(){
     int suitCounter = 0;
 
     for (int i = 0; i < NUM_CARDS; i++) {
-        deck.set(i,Rank.);
+        //deck.set(i,);
 
 
         

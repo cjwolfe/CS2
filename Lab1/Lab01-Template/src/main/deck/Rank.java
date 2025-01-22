@@ -1,7 +1,5 @@
 package deck;
 
-
-
 enum Rank {
     TWO,
     THREE,
@@ -15,5 +13,5 @@ enum Rank {
     JACK,
     QUEEN,
     KING,
-    ACE
+    ACE;
 }
