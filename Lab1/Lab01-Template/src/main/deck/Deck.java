@@ -11,7 +11,6 @@ private ArrayList<PlayingCard> deck;
 
 public Deck(){
     this.generator.setSeed(new Random().nextLong());
-    deck = new ArrayList<>(Rank.values().length);
     
     initialize();
     //System.out.println(this.NUM_CARDS);
@@ -25,8 +24,16 @@ public Deck(int seed){
 public void initialize(){
     //should put all the suits and ranks into the card slots
     deck = new ArrayList<>(NUM_CARDS);
+
+    int rankCounter = 0;
+    int suitCounter = 0;
+
     for (int i = 0; i < NUM_CARDS; i++) {
-        //deck.getCard(i) = ;
+        deck.set(i,Rank.);
+
+
+        
+
         
     }
     
