@@ -2,7 +2,7 @@ package client;
 
 import java.io.FileNotFoundException;
 
-import maze.MazeGame;
+// import maze.MazeGame;
 
 /**
  * Demo used to manually test the maze game.

@@ -1,4 +1,4 @@
-package main.maze;
+package maze;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,14 +12,12 @@ import java.util.Scanner;
  */
 
 
-
-
 public class MazeGame 
 {
-    public static final int HEIGHT = 19;
-    public static final int WIDTH = 39;
-    private static final int ROW = 0;
-    private static final int COL = 1;
+    public final static int HEIGHT = 19;
+    public final static int WIDTH = 39;
+    private final static int ROW = 0;
+    private final static int COL = 1;
 
     private Scanner playerInput;
     private boolean[][] blocked;
@@ -33,76 +31,47 @@ public class MazeGame
     //     // System.out.println("Nothing is working");
     // }
 
-    public MazeGame(String mazeFile) 
-    {
-        this.playerInput = new Scanner(System.in);
-
+    public MazeGame(String mazeFile) throws FileNotFoundException{
+        //this.playerInput = playerInput;
         loadMaze(mazeFile);
-
     }
 
-    public MazeGame(String mazeFile, Scanner playerInput) 
-    {
+    public MazeGame(String mazeFile, Scanner playerInput) throws FileNotFoundException {
+    
         this.playerInput = new Scanner(System.in);
         loadMaze(mazeFile);
     }
 
-    public void playGame() 
-    {
-        while (!playerAtGoal()) 
-        {
+    public void playGame() {
+        do {
             prompt();
-            String input = playerInput.nextLine();
-            if (makeMove(input)) 
-            {
-                break;
-            }
-        }
-
-        if (playerAtGoal()) 
-        {
-            System.out.println("You Won!");
-        } else {
-            System.out.println("Goodbye!");
-        }
+        } while (!makeMove(playerInput.nextLine().trim()));
     }
 
-    public void printMaze() 
-    {
-        System.out.println("***********************************************");
-        for (int i = 0; i < HEIGHT; i++) 
-        {
-            System.out.print("|");
-            for (int j = 0; j < WIDTH; j++) 
-            {
-                if (player[ROW] == i && player[COL] == j) 
-                {
-                    System.out.print("@");
-                } 
-                else if (start[ROW] == i && start[COL] == j) 
-                {
-                    System.out.print("S");
-                } 
-                else if (goal[ROW] == i && goal[COL] == j) 
-                {
-                    System.out.print("G");
-                } 
-                else if (visited[i][j]) 
-                {
-                    System.out.print(".");
-                } 
-                else if (blocked[i][j]) 
-                {
-                    System.out.print("X");
-                } 
-                else 
-                {
-                    System.out.print(" ");
+    public void printMaze() {
+        System.out.println("*".repeat(WIDTH + 2)); // Top border
+    
+        for (int r = 0; r < HEIGHT; r++) {
+            System.out.print("|"); // Left border
+            for (int c = 0; c < WIDTH; c++) {
+                char displayChar = ' ';
+                if (player[ROW] == r && player[COL] == c) {
+                    displayChar = '@';
+                } else if (goal[ROW] == r && goal[COL] == c) {
+                    displayChar = 'G';
+                } else if (start[ROW] == r && start[COL] == c) {
+                    displayChar = 'S';
+                } else if (visited[r][c]) {
+                    displayChar = '.';
+                } else if (blocked[r][c]) {
+                    displayChar = 'X';
                 }
+                System.out.print(displayChar);
             }
-            System.out.println("|");
+            System.out.println("|"); // Right border
         }
-        System.out.println("***********************************************");
+    
+        System.out.println("*".repeat(WIDTH + 2)); // Bottom border
     }
 
     public int getPlayerRow() 
@@ -263,19 +232,13 @@ public class MazeGame
  * @param arrayToCopy
  * @return utility copy array
  */
-    private boolean[][] copyTwoDimBoolArray(boolean[][] arrayToCopy) 
-    {
-        boolean[][] copy = new 
-            boolean[arrayToCopy.length][arrayToCopy[0].length];
-        for (int i = 0; i < arrayToCopy.length; i++) 
-        {
-            for (int j = 0; j < arrayToCopy[0].length; j++) 
-            {
-            copy[i][j] = arrayToCopy[i][j];
-            }
-        }
-        return copy;
+private boolean[][] copyTwoDimBoolArray(boolean[][] arrayToCopy) {
+    boolean[][] copy = new boolean[arrayToCopy.length][];
+    for (int i = 0; i < arrayToCopy.length; i++) {
+        copy[i] = java.util.Arrays.copyOf(arrayToCopy[i], arrayToCopy[i].length);
     }
+    return copy;
+}
 /**
  * prompt
  * 
@@ -283,8 +246,9 @@ public class MazeGame
  */
     private void prompt() 
     {
-        System.out.print("Enter your move (up, down, left, right, or q to quit): ");
         printMaze();
+        System.out.print("Enter your move (up, down, left, right, or q to quit): ");
+
     }
     /**
  * playeratGoal
@@ -292,20 +256,13 @@ public class MazeGame
  * 
  * @return True if player at goal, false otherwise.
  */
-    private boolean playerAtGoal() 
-    {
-        return getPlayerRow() == getGoalRow() && getPlayerCol() == getGoalCol();
-    }
+private boolean playerAtGoal() {
+    return player[ROW] == goal[ROW] && player[COL] == goal[COL];
+}
 
-    private boolean valid(int row, int col) 
-    {
-        return (row < 0 || row >= HEIGHT || col < 0 
-            || col >= WIDTH || blocked[row][col]);
-        // {
-        //     return false;
-        // }
-        // return true;
-    }
+private boolean valid(int row, int col) {
+    return row >= 0 && row < HEIGHT && col >= 0 && col < WIDTH && !blocked[row][col];
+}
     /**
  * Visited
  * 
@@ -313,44 +270,38 @@ public class MazeGame
  * @param col
  * @return visited True if , false otherwise.
  */
-    private void visit(int row, int col) 
-    {
-        visited[row][col] = true;
-    }
+private void visit(int row, int col) {
+    visited[row][col] = true;
+}
 
-    private void loadMaze(String mazeFile) 
-    {
-        try 
-        {
-            Scanner file = new Scanner(new File(mazeFile));
-            blocked = new boolean[HEIGHT][WIDTH];
-            visited = new boolean[HEIGHT][WIDTH];
-            for (int i = 0; i < HEIGHT; i++) 
-            {
-                String line = file.nextLine();
-                for (int j = 0; j < WIDTH; j++) 
-                {
-                    blocked[i][j] = line.charAt(j) == 'X';
-                    visited[i][j] = false;
-                    if (line.charAt(j) == 'S') 
-                    {
-                        start = new int[] {i, j};
-                        player = new int[] {i, j};
-                    }
-                    if (line.charAt(j) == 'G') 
-                    {
-                        goal = new int[] {i, j};
-                    }
-                }
+private void loadMaze(String mazeFile) throws FileNotFoundException {
+    blocked = new boolean[HEIGHT][WIDTH];
+    visited = new boolean[HEIGHT][WIDTH];
+    player = new int[]{0, 0}; // Ensure initialization
+    goal = new int[]{0, 0};
+    start = new int[]{0, 0};
+    
+    Scanner fileScanner = new Scanner(new File(mazeFile));
+    for (int r = 0; r < HEIGHT; r++) {
+        String line = fileScanner.next();
+        for (int c = 0; c < WIDTH; c++) {
+            char ch = line.charAt(c);
+            switch (ch) {
+                case '1': blocked[r][c] = true; break;
+                case '0': blocked[r][c] = false; break;
+                case 'S': 
+                    start[ROW] = player[ROW] = r;
+                    start[COL] = player[COL] = c; 
+                    break;
+                case 'G': 
+                    goal[ROW] = r;
+                    goal[COL] = c; 
+                    break;
             }
-            file.close();
-        } 
-        catch (FileNotFoundException e) 
-        {
-            System.out.println("Error loading maze: " + e.getMessage());
         }
-
     }
+    fileScanner.close();
+}
     
 /**
  * Makes a move in the maze game based on the given input.
@@ -358,45 +309,40 @@ public class MazeGame
  * @param move The move input provided by the player.
  * @return True if true, false if otherwise
  */
-    private boolean makeMove(String move) 
-    {
-        String moveInput = move.toLowerCase().substring(0, 1);
-        if (moveInput.equals("q")) 
-        {
+private boolean makeMove(String move) {
+    String moveInput = move.toLowerCase().substring(0, 1);
+
+    int newRow = getPlayerRow();
+    int newCol = getPlayerCol();
+
+    switch (moveInput) {
+        case "q":
             return true;
-        } 
-        else if (moveInput.equals("l")) 
-        {
-            if (valid(getPlayerRow(), getPlayerCol() - 1)) 
-            {
-                setPlayerCol(getPlayerCol() - 1);
-                visit(getPlayerRow(), getPlayerCol());
-            }
-        } 
-        else if (moveInput.equals("d")) 
-        {
-            if (valid(getPlayerRow() + 1, getPlayerCol())) 
-            {
-                setPlayerRow(getPlayerRow() + 1);
-                visit(getPlayerRow(), getPlayerCol());
-            }
-        } 
-        else if (moveInput.equals("u")) 
-        {
-            if (valid(getPlayerRow() - 1, getPlayerCol())) 
-            {
-                setPlayerRow(getPlayerRow() - 1);
-                visit(getPlayerRow(), getPlayerCol());
-            }
-        } 
-        else if (moveInput.equals("r")) 
-        {
-            if (valid(getPlayerRow(), getPlayerCol() + 1)) 
-            {
-                setPlayerCol(getPlayerCol() + 1);
-                visit(getPlayerRow(), getPlayerCol());
-            }
-        }
-        return playerAtGoal();
+        case "l":
+            newCol--;
+            break;
+        case "r":
+            newCol++;
+            break;
+        case "u":
+            newRow--;
+            break;
+        case "d":
+            newRow++;
+            break;
+        default:
+            System.out.println("Invalid move! Use: up, down, left, right, or q to quit.");
+            return false; // Continue the game
     }
+
+    if (valid(newRow, newCol)) {
+        setPlayerRow(newRow);
+        setPlayerCol(newCol);
+        visit(newRow, newCol);
+    } else {
+        System.out.println("Move blocked! Try a different direction.");
+    }
+
+    return playerAtGoal();
+}
 }
