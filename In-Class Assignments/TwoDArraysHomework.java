@@ -58,7 +58,7 @@ public class TwoDArraysHomework
      * is true, then an ‘X’ is printed, otherwise a space (' ')
      * is printed.
      * 
-     * @param map <put a description of map parameter here>
+     * @param map the map that is provided to determine true/false for each corresponding location.
      */
     public static void showMap(boolean[][] map)
     {
@@ -86,7 +86,7 @@ public class TwoDArraysHomework
      * Make sure that your code ONLY and EXACTLY sets 10
      * entries to true.
      * 
-     * @return <brief description of what this method returns>
+     * @return returns a 10x10 array with 10 random mines
      */
     public static boolean[][] createMines()
     {
@@ -122,25 +122,21 @@ public class TwoDArraysHomework
      * 1-dimensional array of double containing the averages of
      * each row of the 2-dimensional array.
      * 
-     * @param list <put a description of list parameter here>
-     * @return <brief description of what this method returns>
+     * @param list the input list that will be averaged
+     * @return a one dimensional array which contains the averages of each row.
      */
     public static double[] findAverages(double[][] list)
     {
-        double sum = 0;
+        
+        double averages[] = new double[list.length];
         for (int i = 0; i < list.length; i++){
-            sum +=i;
+            double sum = 0;
             for (int j = 0; j < list.length; j++){
-            
-            
-            
+                sum+= list[i][j];
             }
-
-
+            averages[i] = sum/ list[i].length;
         }
-
-
-        return null;
+        return averages;
     }
     
     /**
@@ -151,12 +147,26 @@ public class TwoDArraysHomework
      * true if there are no two entries in the array that are
      * the same and false otherwise.
      * 
-     * @param array <put a description of array parameter here>
-     * @return <brief description of what this method returns>
+     * @param array the input array
+     * @return true if no two entries are the same, false otherwise
      */
     public static boolean noDuplicates(int[][] array)
     {
-        // TODO: finish this method and fix return statement
-        return false;
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array[i].length; j++) {
+                int current = array[i][j];
+                for (int k = 0; k < array.length; k++) {
+                    for (int l = 0; l < array[k].length; l++) {
+                        if (i == k && j == l) {
+                            continue; // Skip the same element
+                        }
+                        if (current == array[k][l]) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
     }
 }
