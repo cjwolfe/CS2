@@ -1,4 +1,6 @@
-package Homework;
+
+import java.util.Random;
+
 
 /**
  * Class TwoDArraysHomework is the first homework assignment,
@@ -7,9 +9,10 @@ package Homework;
  *
  * @author Val Lapensée-Rankine
  * @author cwolfe
- * @version 2024 09 03
+ * @version 2025 01 31
  */
-public class TwoDArraysHomework {
+public class TwoDArraysHomework
+{
     /**
      * The main method.
      * 
@@ -28,20 +31,22 @@ public class TwoDArraysHomework {
      * 
      * @param args unused command-line parameter
      */
-    public static void main(String[] args) {
-        boolean[][] boolArr = { { true, false, true },
-                { false, true, true },
-                { false, false, true } };
+    public static void main(String[] args)
+    {
+        boolean[][] boolArr = {{true, false, true},
+                {false, true, true},
+                {false, false, true}};
         /*
          * This method call should print:
          * X X
-         * XX
-         * X
+         *  XX
+         *   X
          */
         showMap(boolArr);
-
+        System.out.println("Next");
+        showMap(createMines());
+        
         // You should test the rest of your methods below here.
-
     }
 
     /**
@@ -53,22 +58,25 @@ public class TwoDArraysHomework {
      * is true, then an ‘X’ is printed, otherwise a space (' ')
      * is printed.
      * 
-     * @param map Map to display of mines
+     * @param map the map that is provided to determine true/false for each corresponding location.
      */
-    public static void showMap(boolean[][] map) {
-
+    public static void showMap(boolean[][] map)
+    {
+        int count = 0;
         for (int i = 0; i < map.length; i++) {
-            for (int j = 0; j < map[i].length; j++) {
-                if (map[i][j]) {
-                    System.out.print("X");
-                } else {
-                    System.out.print(" ");
+            for (int j = 0; j < map.length; j++){
+                if (map[i][j] == true){
+                System.out.print("X");
                 }
+                else{
+                System.out.print(" ");
+                }
+                
             }
-            System.out.println();
+            System.out.print("\n");
         }
     }
-
+    
     /**
      * createMines method.
      * 
@@ -78,22 +86,34 @@ public class TwoDArraysHomework {
      * Make sure that your code ONLY and EXACTLY sets 10
      * entries to true.
      * 
-     * @return returns the mines array with 10 random mines
+     * @return returns a 10x10 array with 10 random mines
      */
-    public static boolean[][] createMines() {
+    public static boolean[][] createMines()
+    {
+
         boolean[][] mines = new boolean[10][10];
-        for (int i = 0; i < 10; i++) {
-            int x = (int) (Math.random() * 10);
-            int y = (int) (Math.random() * 10);
-            if (mines[x][y] == false) {
-                mines[x][y] = true;
-            } else {
-                i--;
+
+        int count = 0;
+        for(int i = 0; i < 10; i++){
+            for (int j = 0; j < 10; j++){
+        
+                Random random = new Random();
+                int randomNumber = random.nextInt(10);
+                
+                if(randomNumber == 0){
+                    mines[i][j] = true;
+                    count++;
+                    if (count >11){
+                    break;
+                    }
+                }   else {
+                    mines[i][j] = false;
+                }
             }
         }
         return mines;
     }
-
+    
     /**
      * findAverages method.
      * 
@@ -102,21 +122,23 @@ public class TwoDArraysHomework {
      * 1-dimensional array of double containing the averages of
      * each row of the 2-dimensional array.
      * 
-     * @param list 2d array of doubles to determine averages of
-     * @return returns the averages of each row
+     * @param list the input list that will be averaged
+     * @return a one dimensional array which contains the averages of each row.
      */
-    public static double[] findAverages(double[][] list) {
-        double[] averages = new double[list.length];
-        for (int i = 0; i < list.length; i++) {
+    public static double[] findAverages(double[][] list)
+    {
+        
+        double averages[] = new double[list.length];
+        for (int i = 0; i < list.length; i++){
             double sum = 0;
-            for (int j = 0; j < list[i].length; j++) {
-                sum += list[i][j];
+            for (int j = 0; j < list.length; j++){
+                sum+= list[i][j];
             }
-            averages[i] = sum / list[i].length;
+            averages[i] = sum/ list[i].length;
         }
         return averages;
     }
-
+    
     /**
      * noDuplicate method.
      * 
@@ -125,11 +147,26 @@ public class TwoDArraysHomework {
      * true if there are no two entries in the array that are
      * the same and false otherwise.
      * 
-     * @param array <put a description of array parameter here>
-     * @return <brief description of what this method returns>
+     * @param array the input array
+     * @return true if no two entries are the same, false otherwise
      */
-    public static boolean noDuplicates(int[][] array) {
-        // todo: implement this method
-        return false;
+    public static boolean noDuplicates(int[][] array)
+    {
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array[i].length; j++) {
+                int current = array[i][j];
+                for (int k = 0; k < array.length; k++) {
+                    for (int l = 0; l < array[k].length; l++) {
+                        if (i == k && j == l) {
+                            continue; // Skip the same element
+                        }
+                        if (current == array[k][l]) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
     }
 }
