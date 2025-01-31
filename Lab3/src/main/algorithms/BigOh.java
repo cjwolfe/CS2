@@ -121,6 +121,8 @@ public class BigOh
                 minTime = trialTime;
             }
         }
+        
+
         return minTime;
         // double[] runTimes = new double[NUM_TRIALS];
         // for (int i = 0; i < NUM_TRIALS; i++) 
