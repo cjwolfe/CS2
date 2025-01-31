@@ -1,42 +1,91 @@
-/**
- * Something
- * 
- * @param args
- */
 
-public static void main(string[] args) {
-
-    String[][] table = { { "a", "b", "c" },
-            { "d", "e", "f" } };
-
-    printTable(table); // dataType of table: String[][]
-
-}
 
 /**
- * printTable
- * 
- * Print the parameter table to the screen so that it looks like a neat table
- * with row and column headings.
- * 
- * Ex:
- * Cols: 0 1 2
- * Row 0: a b c
- * Row 1: d e f
+ *
+ * @author chris (actually svrankine for printtable)
  */
-public static void printTable(String[][] table) {
+public class PrintTable {
 
-    System.out.println("Cols:\t");
-    for (int k = 0; k < table[0].length; k++) {
-        System.out.print(k + "\t");
+    public static void PrintTableAverages(int[][] table){
+        for(int k = 0; k < table[0].length; k++){
+            System.out.print("\tCol " + k);
+        }
+        System.out.println("\tAVERAGE");
+
+        for(int i = 0; i < table.length; i++){
+            System.out.print("Row " + i);
+            int sum = 0;
+            for(int j = 0; j < table[i].length; j++)
+            {
+                System.out.print("\t" + table[i][j]);
+                sum += table[i][j];
+
+            }
+            System.out.println("\t" + ((double) sum / table[i].length));
+        
+        }
     }
-    System.out.print("\n");
 
-    for (int i = 0; i < table[0].length; i++) {
-        System.out.print(i + "\t");
+
+    /** 
+     * Write an int method, findLargestRow, which takes as input a 
+     * 2-dimensional array of double and returns the index of the
+     * row that has the largest sum.
+     * 
+    */
+
+    public static double findLargestRow(double[][] table){
+        double largest = 0;
+        double largestSum = Double.MIN_VALUE;
+        for(int i = 0; i < table[i].length; i++){
+            double sum = 0;
+            for(int j = 0; j< table[j].length; j++){
+                sum+=table[i][j];
+            }
+            if(largestSum > sum){
+                largestSum = sum;
+                largest = i;
+            }
+            
+
+        
+        }
+        return largest;    
     }
 
-    // for(
-    // int i = 0;i<table.length;i++)
+    /**
+     * Write an int method, productDiagonal, which has a square
+     * 2-dimensional array of integers as a parameter and returns the product of
+     * the main diagonal.
+     * the main diagonal refers to the entries where row == column.
+     * When you declare the variable that you will use for the product,
+     * initialize it to 1, not 0. Can you solve this with a single for loop?
+     * 
+     * @param table
+     * @return
+     */
+
+    public static int productDiagonal(int[][] table){
+        int product = 1;
+        for ( int i = 0; i < table.length; i++){
+            product *= table[i][i];
+
+        }
+
+        return product;
+                    }
+        
+        /**
+         * Write a method, countIsolatedZeroes, which takes a
+         * 2-dimensional integer array as a parameter and
+         * returns the number of zeros that have no neighbors
+         * (above, below, left. or right) that are also zeros.
+        */
+
+        
+
+
+
+
 
 }
