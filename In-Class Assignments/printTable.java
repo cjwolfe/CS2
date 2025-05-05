@@ -4,7 +4,7 @@
  *
  * @author chris (actually svrankine for printtable)
  */
-public class PrintTable {
+public class printTable {
 
     public static void PrintTableAverages(int[][] table){
         for(int k = 0; k < table[0].length; k++){
